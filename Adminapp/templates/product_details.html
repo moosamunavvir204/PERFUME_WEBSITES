@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% extends 'dashboard.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+
+                    <div class="col-sm-12 col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Bordered Table</h6>
+                            <table class="table table-bordered" style="text-align:center">
+                                <thead  style="text-align:center">
+                                    <tr>
+                                        <th scope="col"> Product</th>
+                                        <th scope="col">Brand</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col">price</th>
+                                         <th scope="col">description</th>
+                                         <th scope="col">productImage</th>
+                                         <th scope="col">option</th>
+                                    </tr>
+                                </thead>
+                               <tbody>
+                               {% for p in product %}
+                               <tr>
+                                   <td>{{p.product_name}}</td>
+                                   <td>{{p.brand}}</td>
+                                   <td>{{p.category_name}}</td>
+                                   <td>{{p.Size}}</td>
+                                   <td>{{p.price}}</td>
+                                   <td>{{p.description}}</td>
+                                   <td><img src="{{p.product_Image.url}}" width="40px"></td>
+                                    <td><a href="{%  url 'edit_product' pro_id=p.id  %}" class="btn btn-outline-success">Edit</a>
+                                        <a href="{%  url 'delete_product' pro_id=p.id  %}" class="btn btn-outline-danger">delete</a>
+                                    </td>
+
+                               </tr>
+                               {% endfor %}
+
+                               </tbody>
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+</div>
+</body>
+</html>
+{% endblock %}

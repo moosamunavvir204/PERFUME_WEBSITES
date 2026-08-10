@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends 'Dashboard.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+
+                    <div class="col-sm-12 col-xl-12">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Bordered Table</h6>
+                            <table class="table table-bordered" style="text-align:center">
+                                <thead  style="text-align:center">
+                                    <tr>
+                                        <th scope="col"> Category</th>
+                                        <th scope="col">description</th>
+                                        <th scope="col">category_image</th>
+                                         <th scope="col">option</th>
+                                    </tr>
+                                </thead>
+                               <tbody>
+                               {% for d in data %}
+                               <tr>
+                                   <td>{{d.category}}</td>
+                                   <td>{{d.description}}</td>
+                                   <td><img src="{{d.perfume_Image.url}}" width="40px"></td>
+                                      <td><a href="{%  url 'edit_page' per_id=d.id  %}"class="btn btn-outline-success">Edit</a>
+                                        <a href="{%  url 'delete_page' per_id=d.id  %}"class="btn btn-outline-danger">delete</a>
+                                    </td>
+
+                               </tr>
+                               {% endfor %}
+
+                               </tbody>
+
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+</div>
+</body>
+</html>
+{% endblock %}
