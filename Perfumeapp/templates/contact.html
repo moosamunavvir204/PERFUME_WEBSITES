@@ -46,7 +46,7 @@
     <!-- Spinner End -->
 
 
-    <!-- Header Start -->
+      <!-- Header Start -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-lg-5">
             <a href="{% url 'About' %}" class="navbar-brand ms-4 ms-lg-0">
@@ -81,32 +81,66 @@
                                 <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">{{cart_total}}</span>
                             </a>
                 </div>
-                  <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            {% if request.session.Username %}
-                            <a href="{% url 'Cart_page' %}" class="position-relative me-4 my-auto"><i class="fa fa-shopping-bag fa-2x"></i></a>
-                            <a href="{% url 'User_register' %}" class="my-auto">
-                                <span>Welcome {{request.session.Username}}/Logout</span>
-                            </a>
-                            {% else %}
-                            <a href="{% url 'User_register' %}" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                            </a>
-                            {% endif %}
+         <div class="search-container">
+    <form method="GET"
+          action="{% url 'search_product' %}"
+          class="search-bar d-flex justify-content-center">
+
+        <input type="text"
+               name="product"
+               placeholder="Search Perfume"
+               class="form-control"
+               style="width:200px; border-radius:25px 0 0 25px; border:1px solid #E91E63; padding:10px 20px; color:#fff; background-color:#111;">
+
+        <button type="submit"
+                class="btn"
+                style="background-color:#E91E63; border-radius:0 25px 25px 0; border:none; padding:10px 20px; color:#fff;">
+            <i class="fa fa-search"></i>
+        </button>
+    </form>
+</div>
 
 
-                        </div>
+            <div class="d-flex m-3 me-0">
+
+    {% if request.session.Username %}
+
+        <!-- Logout Div -->
+        <div class="d-flex align-items-center me-3">
+            <span class="me-3">
+                👋 Welcome {{ request.session.Username }}
+            </span>
+
+            <a href="{% url 'user_logout' %}"
+               class="btn btn-outline-primary rounded-pill px-3">
+                 Logout
+            </a>
+        </div>
+
+    {% else %}
+
+        <!-- Login Div -->
+        <div class="d-flex align-items-center">
+            <a href="{% url 'User_register' %}"
+               class="btn btn-outline-primary rounded-pill px-3">
+                👤 Login
+            </a>
+        </div>
+
+    {% endif %}
+
+</div>
             </div>
         </nav>
 
         <div class="page-header pb-5">
             <div class="container text-center py-5">
-                <h1 class="display-4 text-uppercase mb-3 animated slideInDown">Contact</h1>
+                <h1 class="display-4 text-uppercase mb-3 animated slideInDown">CONTACT</h1>
 <!--                <nav aria-label="breadcrumb animated slideInDown">-->
 <!--                    <ol class="breadcrumb justify-content-center text-uppercase mb-0">-->
 <!--                        <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>-->
 <!--                        <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>-->
-<!--                        <li class="breadcrumb-item text-primary active" aria-current="page">Contact</li>-->
+<!--                        <li class="breadcrumb-item text-primary active" aria-current="page"> Product</li>-->
 <!--                    </ol>-->
 <!--                </nav>-->
             </div>
@@ -126,28 +160,35 @@
                             <h1>Please Contact Us</h1>
                         </div>
                     </div>
-                    <h4 class="lh-base mb-4">Receive messages instantly with our PHP and Ajax contact form - available
-                        in the <a href="https://htmlcodex.com/downloading/?item=3631">Pro Version</a> only.</h4>
+                    <h4 class="lh-base mb-4">We believe perfume is more than a product — it’s an experience. Whether you’re curious about our collections, need support with your order, or simply want to share feedback, we’d love to hear from you."></h4>
+<!--                         <a href="https://htmlcodex.com/downloading/?item=3631">Pro Version</a> only.</h4>-->
                     <table class="table table-dark mb-0 wow fadeInUp" data-wow-delay="0.3s">
                         <tr>
                             <td>PHONE</td>
-                            <td>+0123456789</td>
+                            <td>7356425779</td>
                         </tr>
                         <tr>
                             <td>E-MAIL</td>
-                            <td>info@example.com</td>
+                            <td>RESPERE@gmail.com</td>
                         </tr>
                         <tr>
                             <td>ADDRESS</td>
-                            <td>123 Street, New York, USA</td>
+                            <td>Kochi,kaloor</td>
                         </tr>
                         <tr class="border-dark">
                             <td>FOLLOW US</td>
                             <td>
-                                <a class="me-1" href="#!"><i class="fab fa-x-twitter"></i></a>
-                                <a class="me-1" href="#!"><i class="fab fa-facebook-f"></i></a>
-                                <a class="me-1" href="#!"><i class="fab fa-youtube"></i></a>
-                                <a class="me-1" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                                 <div class="d-flex justify-content-center mb-4">
+
+                <a class="btn btn-lg-square btn-outline-primary border-2 m-1"
+                    href="https://www.facebook.com/yourprofile" target="_blank">
+                 <i class="fab fa-facebook-f"></i></a>
+               <a class="btn btn-lg-square btn-outline-primary border-2 m-1"
+                         href="https://www.instagram.com/respere_fragrance" target="_blank">
+                   <i class="fab fa-instagram"></i></a>
+                <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="https://www.linkedin.com/in/moosa-munavvir"><i
+                        class="fab fa-linkedin-in"></i></a>
+                                 </div>
                             </td>
                         </tr>
                     </table>
@@ -186,11 +227,54 @@
     <div class="container-fluid bg-dark text-light footer py-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center py-5">
             <a href="{% url 'About' %}">
-                <h1 class="display-4 mb-3 text-white text-uppercase"><i
-                        class="fa-regular fa-face-smile me-1"></i>RESPERE</h1>
+                             <h1 class="mb-0 text-primary text-uppercase">
+  <i class="fa-solid fa-spray-can-sparkles me-1"></i> RESPERE
+</h1>
             </a>
-            <div class="d-flex justify-content-center mb-4">
+     <!-- Footer Start -->
+<footer class="bg-dark text-light pt-5 pb-4 mt-5">
+  <div class="container text-center text-md-left">
+    <div class="row text-center text-md-left">
 
+      <!-- About -->
+      <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+       <h5 class="text-uppercase mb-4 font-weight-bold" style="color:#E91E63;">
+    Perfume Store
+  </h5>
+        <p>Discover luxury perfumes and fragrances that suit every mood and occasion. Quality, elegance, and authenticity in every bottle.</p>
+      </div>
+
+      <!-- Links -->
+   <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+  <h5 class="text-uppercase mb-4 font-weight-bold" style="color:#E91E63;">
+    Quick Links
+  </h5>
+  <p><a href="{% url 'Home' %}" style="color:#fff; text-decoration:none;">Home</a></p>
+  <p><a href="{% url 'product' %}" style="color:#fff; text-decoration:none;">Products</a></p>
+  <p><a href="{% url 'About' %}" style="color:#fff; text-decoration:none;">About</a></p>
+  <p><a href="{% url 'contact' %}" style="color:#fff; text-decoration:none;">Contact</a></p>
+</div>
+
+      <!-- Contact -->
+     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+  <h5 class="text-uppercase mb-4 font-weight-bold" style="color:#E91E63;">
+    Contact
+  </h5>
+  <p style="color:#fff;">
+    <i class="fa fa-home mr-3" style="color:#E91E63;"></i> Kochi, Kerala, India
+  </p>
+  <p style="color:#fff;">
+    <i class="fa fa-envelope mr-3" style="color:#E91E63;"></i> Respere@perfumestore.com
+  </p>
+  <p style="color:#fff;">
+    <i class="fa fa-phone mr-3" style="color:#E91E63;"></i> +91 7356425779
+  </p>
+</div>
+
+
+      <!-- Social -->
+
+         <div class="d-flex justify-content-center mb-4">
                 <a class="btn btn-lg-square btn-outline-primary border-2 m-1"
                     href="https://www.facebook.com/yourprofile" target="_blank">
                  <i class="fab fa-facebook-f"></i></a>
@@ -200,15 +284,26 @@
                 <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href="https://www.linkedin.com/in/moosa-munavvir"><i
                         class="fab fa-linkedin-in"></i></a>
             </div>
-            <p>&copy; <a class="border-bottom" href="#">RESPERE</a>, All Right Reserved.</p>
 
-            <!--/*** The author’s attribution link must remain intact in the template. ***/-->
-            <!--/*** If you wish to remove this credit link, please purchase the Pro Version . ***/-->
-            <p class="mb-0">Designed By <a class="border-bottom" href="https://www.instagram.com/respere_fragrance">RESPERE</a>. Distributed by <a href="{% url 'product' %}" target="_blank">PERFUMES</a>.</p>
-        </div>
+
+
+    <hr class="mb-4">
+
+    <!-- Copyright -->
+    <div class="row align-items-center">
+      <div class="col-md-7 col-lg-8">
+        <p>© 2026 Perfume Store. All Rights Reserved.</p>
+      </div>
+      <div class="col-md-5 col-lg-4">
+        <p class="text-end" style="color:#fff;">
+  Designed by <span style="color:#E91E63; font-weight:bold;">Munavvir</span>
+</p>
+
+      </div>
     </div>
-    <!-- Footer End -->
-
+  </div>
+</footer>
+<!-- Footer End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-outline-primary border-2 btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

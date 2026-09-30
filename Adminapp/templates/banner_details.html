@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends 'Dashboard.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="table table-bordered" style="text-align:center">
+
+    <thead>
+        <tr>
+            <th scope="col">BANNER VIDEO</th>
+            <th scope="col">OPTION</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for B in banner %}
+
+        <tr>
+
+            <td>
+                {% if B.Banner_Video %}
+
+                    <video width="200" controls>
+                        <source src="{{ B.Banner_Video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                {% else %}
+
+                    <p>No video uploaded</p>
+
+                {% endif %}
+            </td>
+
+            <td>
+                <a href="{% url 'edit_banner' banner_id=B.id %}"
+                   class="btn btn-outline-success">
+                    Edit
+                </a>
+
+                <a href="{% url 'delete_banner' banner_id=B.id %}"
+                   class="btn btn-outline-danger">
+                    Delete
+                </a>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+</body>
+</html>
+{% endblock %}

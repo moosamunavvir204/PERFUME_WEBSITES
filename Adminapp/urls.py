@@ -26,4 +26,12 @@ urlpatterns=[
     path('edit_client<int:clint_id>/', views.edit_client, name='edit_client'),
     path('Update_Client<int:clint_id>/', views.Update_Client, name='Update_Client'),
     path('delete_client<int:clint_id>/', views.delete_client, name='delete_client'),
+
+
+    path('banner_page/', views.banner_page, name='banner_page'),
+    path('banner_details/', views.banner_details, name='banner_details'),
+    path('save_banner/', views.save_banner, name='save_banner'),
+    path('edit_banner<int:banner_id>/', views.edit_banner, name='edit_banner'),
+    path('update_banner<int:banner_id>/', views.update_banner, name='update_banner'),
+    path('delete_banner<int:banner_id>/', views.delete_banner, name='delete_banner'),
 ]

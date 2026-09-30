@@ -1,5 +1,7 @@
 from django.urls import path,include
 from  Perfumeapp import views
+from . import views
+import razorpay
 
 urlpatterns=[
     path('Home/', views.Home, name='Home'),
@@ -22,6 +24,17 @@ urlpatterns=[
     path('Check_out_page/',views.Check_out_page,name='Check_out_page'),
     path('save_check_out/', views.save_check_out, name='save_check_out'),
     path('end_page/',views.end_page,name='end_page'),
+    path('remove_from_cart/<int:pro_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path( 'increase_quantity/<int:pro_id>/', views.increase_quantity,name='increase_quantity'),
+    path('decrease_quantity/<int:pro_id>/',views.decrease_quantity,name='decrease_quantity'),
+    path('search_product/', views.search_product, name='search_product'),
+    path('add_review/<int:pro_id>/',views.add_review,name='add_review'),
+path(
+    'delete_review/<int:review_id>/',
+    views.delete_review,
+    name='delete_review'
+),
+
 
 
 ]

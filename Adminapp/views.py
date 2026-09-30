@@ -130,4 +130,33 @@ def delete_client(request,clint_id):
     client = ClientDB.objects.filter(id=clint_id)
     client.delete()
     return redirect(Client_details)
+def banner_page(request):
+    return render(request,'banner.html')
+def banner_details(request):
+    banner =BannerDB.objects.all()
+    return render(request,'banner_details.html',{'banner':banner})
+def save_banner(request):
+    img = request.FILES["image"]
+    obj = BannerDB( Banner_Video=img)
+    obj.save()
+    messages.success(request, 'banner Added Successfully')
+    return redirect(banner_page)
+def edit_banner(request,banner_id):
+    banner = BannerDB.objects.get(id=banner_id)
+    return render(request,'edit_banner.html',{'banner':banner})
+def update_banner(request,banner_id):
+    try:
+        img = request.FILES["image"]
+        obj = FileSystemStorage()
+        file = obj.save(img.name, img)
+    except MultiValueDictKeyError:
+        file = BannerDB.objects.get(id=banner_id).Banner_Video
+    BannerDB.objects.filter(id=banner_id).update(Banner_Video=file)
+    return redirect(banner_details)
+def delete_banner(request,banner_id):
+    banner = ClientDB.objects.filter(id=banner_id)
+    banner.delete()
+    return redirect(banner_details)
+
+
 

@@ -20,7 +20,8 @@ class ProductDB(models.Model):
     product_Image = models.ImageField(upload_to="image profiles", null=True, blank=True)
     # ------------------------------------------------------------------------------------------------------
 class BannerDB(models.Model):
-    Banner_Image = models.ImageField(upload_to="Banner profiles", null=True, blank=True)
+    # Banner_Image = models.ImageField(upload_to="Banner profiles", null=True, blank=True)
+    Banner_Video = models.FileField(upload_to="Banner videos",null=True,blank=True)
     # ------------------------------------------------------------------------------------------------------
 class ContactDB(models.Model):
     name=models.CharField(max_length=100,null=True,blank=True)
@@ -60,3 +61,14 @@ class ClientDB(models.Model):
     name=models.CharField(max_length=100,null=True,blank=True)
     description = models.CharField(max_length=100, null=True, blank=True)
     Client_Image =  models.ImageField(upload_to="client profiles", null=True, blank=True)
+
+
+class ReviewDB(models.Model):
+    product = models.ForeignKey(ProductDB, on_delete=models.CASCADE)
+    customer_name = models.CharField(max_length=100)
+    rating = models.IntegerField()
+    review = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.product.product_name

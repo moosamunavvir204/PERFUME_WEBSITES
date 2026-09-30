@@ -5,11 +5,12 @@ from platform import uname
 from platform import uname
 import razorpay
 
-from Adminapp.models import ProductDB, PerfumeDB, ContactDB, RegisterDB, CartDb, OrderDB,ClientDB
+from Adminapp.models import ProductDB, PerfumeDB, ContactDB, RegisterDB, CartDb, OrderDB,ClientDB,BannerDB,ReviewDB
 
 
 # Create your views here.
 def Home(request):
+    banner=BannerDB.objects.all()[:1]
     client=ClientDB.objects.all()
     categories = PerfumeDB.objects.all()
     feature= PerfumeDB.objects.all()[:1]
@@ -21,7 +22,7 @@ def Home(request):
         cart_total = CartDb.objects.filter(Username=uname).count()
 
 
-    return render(request,'Home.html',{'product':product,'feature':feature,'categories':categories,'client':client,'cart_total':cart_total})
+    return render(request,'Home.html',{'product':product,'feature':feature,'categories':categories,'banner':banner,'client':client,'cart_total':cart_total})
 def About(request):
     feature = PerfumeDB.objects.filter()[:1]
     categories = PerfumeDB.objects.all()
@@ -30,6 +31,29 @@ def product(request):
     categories = PerfumeDB.objects.all()
     product = ProductDB.objects.all()
     return render(request,'Product.html',{'product':product,'categories':categories})
+# def product(request):
+#     categories = PerfumeDB.objects.all()
+#
+#     product = ProductDB.objects.all()
+#
+#     # Get price values from the slider
+#     min_price = request.GET.get('min_price')
+#     max_price = request.GET.get('max_price')
+#
+#     # Filter products by minimum price
+#     if min_price:
+#         product = product.filter(price__gte=min_price)
+#
+#     # Filter products by maximum price
+#     if max_price:
+#         product = product.filter(price__lte=max_price)
+#
+#     return render(request, 'Product.html', {
+#         'product': product,
+#         'categories': categories,
+#         'min_price': min_price,
+#         'max_price': max_price,
+#     })
 def filtered_product(request,cat_name):
     product = ProductDB.objects.filter(category_name=cat_name)
     categories = PerfumeDB.objects.all()
@@ -39,7 +63,8 @@ def terms(request):
     categories = PerfumeDB.objects.all()
     return render(request,'terms.html',{'categories':categories,'feature':feature})
 def contact(request):
-    return render(request,'contact.html')
+    categories = PerfumeDB.objects.all()
+    return render(request,'contact.html',{'categories':categories})
 def save_contact(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -54,10 +79,25 @@ def save_contact(request):
 def main_page(request):
     feature = PerfumeDB.objects.all()[:3]
     return render(request,"Main_page.html",{'feature':feature})
-def Single_iteam(request,pro_id):
-    PERFUMES = ProductDB.objects.all()[:6]
-    products = ProductDB.objects.get(id=pro_id)
-    return render(request,'filtered_Single.html',{'products':products,'PERFUMES':PERFUMES})
+def Single_iteam(request, pro_id):
+    categories = PerfumeDB.objects.all()
+    PERFUMES = ProductDB.objects.all()
+
+    products = get_object_or_404(
+        ProductDB,
+        id=pro_id
+    )
+
+    reviews = ReviewDB.objects.filter(
+        product=products
+    ).order_by('-created_at')
+
+    return render(request, 'filtered_Single.html', {
+        'products': products,
+        'PERFUMES': PERFUMES,
+        'reviews': reviews,
+        'categories':categories,
+    })
 
 def User_register(request):
     feature = PerfumeDB.objects.all()
@@ -111,7 +151,7 @@ def user_logout(request):
     return redirect(Home)
 def Cart_page(request):
     products = CartDb.objects.filter(Username=request.session.get("Username"))
-    category = PerfumeDB.objects.all()
+    categories = PerfumeDB.objects.all()
     sub_total = 0
     delivery_charge = 0
     total_amount = 0
@@ -120,7 +160,7 @@ def Cart_page(request):
     if sub_total:
         delivery_charge = 0 if sub_total > 1000 else 100
         total_amount = sub_total + delivery_charge
-    return render(request,'Cart.html',{'products':products,'category':category,'sub_total':sub_total,'delivery_charge':delivery_charge,'total_amount':total_amount})
+    return render(request,'Cart.html',{'products':products,'categories':categories,'sub_total':sub_total,'delivery_charge':delivery_charge,'total_amount':total_amount})
 def save_to_cart(request, pro_id):
     if request.method == "POST":
         if not request.session.get("Username"):
@@ -135,6 +175,7 @@ def save_to_cart(request, pro_id):
         obj.save()
     return redirect(Home)
 def Check_out_page(request):
+    categories = PerfumeDB.objects.all()
     products = CartDb.objects.filter(Username=request.session.get("Username"))
     sub_total = sum((i.TotalPrice or 0) for i in products)
     delivery_charge = 0 if sub_total > 1000 else 100
@@ -144,6 +185,7 @@ def Check_out_page(request):
         'sub_total': sub_total,
         'delivery_charge': delivery_charge,
         'total_amount': total_amount,
+        ' categories': categories
     })
 
 
@@ -202,9 +244,79 @@ def payment(request):
         'pay_str': pay_str,
         'payment': payment,
     })
+
 def end_page(request):
-    feature = PerfumeDB.objects.filter()
-    return render(request,'Thank.html',{'feature':feature})
+    # feature = PerfumeDB.objects.filter()
+    banner = BannerDB.objects.all()[:1]
+    return render(request,'Thank.html',{'banner':banner})
+def remove_from_cart(request, pro_id):
+    products = CartDb.objects.get(id=pro_id)
+    products.delete()
+    return redirect('Cart_page')
 
 
 
+def increase_quantity(request, pro_id):
+    cart_item = get_object_or_404(CartDb, id=pro_id)
+
+    cart_item.Quantity += 1
+
+    cart_item.TotalPrice = cart_item.price * cart_item.Quantity
+
+    cart_item.save()
+
+    return redirect('Cart_page')
+
+
+def decrease_quantity(request, pro_id):
+    cart_item = get_object_or_404(CartDb, id=pro_id)
+
+    if cart_item.Quantity > 1:
+        cart_item.Quantity -= 1
+        cart_item.TotalPrice = cart_item.price * cart_item.Quantity
+        cart_item.save()
+
+    return redirect('Cart_page')
+def search_product(request):
+    search = request.GET.get('product', '')
+
+    products = ProductDB.objects.filter(
+        product_name__icontains=search
+    )
+
+    categories = PerfumeDB.objects.all()
+
+    return render(request, 'Product.html', {
+        'product': products,
+        'categories': categories,
+    })
+def add_review(request, pro_id):
+
+    if request.method == "POST":
+
+        product = get_object_or_404(
+            ProductDB,
+            id=pro_id
+        )
+
+        customer_name = request.POST.get("customer_name")
+        rating = request.POST.get("rating")
+        review = request.POST.get("review")
+
+        ReviewDB.objects.create(
+            product=product,
+            customer_name=customer_name,
+            rating=rating,
+            review=review
+        )
+
+    return redirect('Single_iteam', pro_id=pro_id
+    )
+def delete_review(request, review_id):
+    review = get_object_or_404(ReviewDB, id=review_id)
+
+    product_id = review.product.id
+
+    review.delete()
+
+    return redirect('Single_iteam', pro_id=product_id)

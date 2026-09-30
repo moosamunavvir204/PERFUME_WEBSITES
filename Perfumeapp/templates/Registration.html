@@ -121,12 +121,12 @@
 		<!-- END CONTENT SECTION -->
 	</div>
 <style>
-    :root {
+   :root {
     --primary-color: #000000;   /* Black */
-    --secondary-color: #ffffff; /* White */
+    --secondary-color: #ff69b4; /* Pink */
     --black: #000000;
     --white: #ffffff;
-    --gray: #efefef;
+    --gray: #f8f8f8;
     --gray-2: #757575;
 
     --facebook-color: #4267B2;
@@ -215,7 +215,8 @@ body {
 }
 
 .input-group input:focus {
-    border: 0.125rem solid var(--primary-color);
+    border: 0.125rem solid var(--secondary-color);
+    box-shadow: 0 0 5px var(--secondary-color);
 }
 
 .form button {
@@ -224,10 +225,16 @@ body {
     padding: .6rem 0;
     border-radius: .5rem;
     border: none;
-    background-color: var(--primary-color);
-    color: var(--white);
+    background-color: var(--secondary-color);
+    color: var(--black);
     font-size: 1.2rem;
     outline: none;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.form button:hover {
+    background-color: #ff1493; /* Deep Pink hover */
 }
 
 .form p {
@@ -272,6 +279,7 @@ body {
 
 .social-list>div:hover i {
     transform: scale(1.5);
+    color: var(--secondary-color); /* Pink glow on hover */
 }
 
 .facebook-bg { background-color: var(--facebook-color); }
@@ -426,6 +434,7 @@ body {
         font-size: 2rem;
     }
 }
+
 </style>
 
 </body>
