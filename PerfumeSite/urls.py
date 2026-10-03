@@ -19,8 +19,8 @@ from django.urls import path, include
 from Perfumeapp import views
 import Adminapp.urls
 import Perfumeapp.urls
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
-from . import settings
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.Home, name='home'),
@@ -29,9 +29,5 @@ urlpatterns = [
     path('Perfumeapp/', include(Perfumeapp.urls)),
 ]
 
-urlpatterns += staticfiles_urlpatterns()
-
-urlpatterns += static(
-    settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
-)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

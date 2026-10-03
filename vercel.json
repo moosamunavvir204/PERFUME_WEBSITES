@@ -1,8 +1,0 @@
-{
-  "routes": [
-    {
-      "src": "/media/(.*)",
-      "dest": "/media/$1"
-    }
-  ]
-}
